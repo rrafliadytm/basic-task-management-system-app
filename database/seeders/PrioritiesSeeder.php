@@ -14,10 +14,11 @@ class PrioritiesSeeder extends Seeder
     public function run(): void
     {
         $priorities = [
-            ['name' => 'Normal', 'level' => 1],
-            ['name' => 'High', 'level' => 2],
-            ['name' => 'Urgent', 'level' => 3],
-            ['name' => 'Low', 'level' => 4],
+            ['name' => 'Low', 'level' => 1],
+            ['name' => 'Normal', 'level' => 2],
+            ['name' => 'High', 'level' => 3],
+            ['name' => 'Urgent', 'level' => 4],
+            ['name' => 'Critical', 'level' => 5],
         ];
 
         foreach ($priorities as $priority) {

@@ -3,10 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
+
 
 class categories extends Model
 {
+    // Eloquent Relationship for Categories Has Many Tasks
+    public function priorities(): HasMany
+    {
+        return $this->hasMany(priorities::class);
+    }
+
+
     protected $table = 'categories';
     protected $fillable = [
         'name',
@@ -15,11 +24,10 @@ class categories extends Model
      protected static function boot()
     {
         parent::boot();
-
-        // Event ini akan berjalan SEBELUM data baru disimpan ke database
+        // This method is called when a new category is being created
         static::creating(function ($category) {
-            // Mengubah isi kolom 'name' menjadi format slug
-            // dan menyimpannya ke kolom 'slug'
+            // Change the content of the 'name' column to a slug format
+            // and save it to the 'slug' column
             $category->slug = Str::slug($category->name);
         });
     }
