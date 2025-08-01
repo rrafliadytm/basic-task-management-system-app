@@ -125,8 +125,7 @@ cp .env .env.testing
 
 3. **Run migrations & seeders to create a new testing database from the `.env.testing` file**
    ```bash
-   Migrations: php artisan migrate --env=testing
-   Seeders: php artisan migrate:fresh --seed --env=testing
+   php artisan migrate:fresh --env=testing --seed
    ```
 4. **Make sure the SQLite/SQLite3 extension has been installed and enabled on the `php.ini` file**
    ```bash
