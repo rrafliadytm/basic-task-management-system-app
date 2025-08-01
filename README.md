@@ -136,7 +136,7 @@ cp .env .env.testing
    ;extension=pdo_sqlite --> extension=pdo_sqlite
    ```
    
-5. **To run the entire test suite, use the command:
+5. **To run the entire test suite, use the command:**
    ```bash
    php artisan test tests/Feature/Tasks/Api/TaskApiTest.php
    ```
