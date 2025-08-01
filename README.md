@@ -84,11 +84,6 @@ Here are the steps to get this project running locally.
     composer run dev
     ```
     The application is now running at `http://localhost:8000`.
-    
-7. **Run the Pest to test the API on the terminal**
-   ```bash
-   php artisan test tests/Feature/Tasks/Api/TaskApiTest.php
-   ```
 
 ---
 ## ⚙️ Usage
@@ -114,7 +109,30 @@ Complete and interactive API documentation is available after you run the server
 ## ✅ Running Tests
 This project includes automated tests to ensure that all API functionalities work correctly.
 
-To run the entire test suite, use the command:
+1. **Make sure to copy the `.env` to the new `.env.testing` file**
 ```bash
-php artisan test
+cp .env.example .env
 ```
+2. **Open the `.env.testing` file and set your `DB_DATABASE`, `DB_USERNAME`, and `DB_PASSWORD`.** Example:
+   ```bash
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3307
+    DB_DATABASE=task_management_sytem_testing
+    DB_USERNAME=root
+    DB_PASSWORD=
+   ```
+
+3. **Run migrations & seeders to create a new testing database from the `.env.testing` file**
+   ```bash
+    php artisan migrate:fresh --seed --env=testing
+   ```
+4. **Make sure the SQLite/SQLite3 extension has been installed and enabled on the `php.ini` file**
+   ```bash
+   ;extension=pdo_sqlite --> extension=pdo_sqlite
+   ```
+   
+5. **To run the entire test suite, use the command:
+   ```bash
+   php artisan test tests/Feature/Tasks/Api/TaskApiTest.php
+   ```
