@@ -1,61 +1,116 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Basic Task Management System (Laravel Filament + REST API)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![Laravel](https://img.shields.io/badge/Laravel-11-FF2D20?style=for-the-badge&logo=laravel)
+![PHP](https://img.shields.io/badge/PHP-8.2-777BB4?style=for-the-badge&logo=php)
+![Filament](https://img.shields.io/badge/Filament-3-D82462?style=for-the-badge)
+![Pest](https://img.shields.io/badge/Pest-✓-CC243D?style=for-the-badge&logo=pest)
 
-## About Laravel
+A simple task management application built with Laravel. This project features a powerful Admin Panel built with **Filament** and a secure REST API utilizing **Laravel Sanctum**.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This project was created as a case study to implement best practices in Laravel application development, including clean architecture, authorization, testing, and API documentation.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
+## ✨ Key Features
+- **Admin Panel**: A comprehensive administrator interface to manage Tasks, Categories, and Priorities using **Laravel Filament**.
+- **REST API**: Secure API endpoints for CRUD operations on tasks.
+- **Authentication**: Token-based authentication system using **Laravel Sanctum**.
+- **Authorization**: Use of **Laravel Policies** to ensure users can only access their own data.
+- **Validation**: Separate request validation using **Form Requests**.
+- **Testing**: Comprehensive feature tests using **Pest** to ensure API reliability.
+- **API Documentation**: Interactive documentation automatically generated using **Swagger (OpenAPI)**.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
+## 🚀 Tech Stack
+- **Backend**: Laravel 11
+- **Admin Panel**: Filament 3
+- **API Authentication**: Laravel Sanctum
+- **Database**: MySQL and SQLite for testing)
+- **Testing Framework**: Pest
 
-## Learning Laravel
+---
+## 🛠️ Installation & Setup
+Here are the steps to get this project running locally.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+**Prerequisites:**
+- PHP 8.2 or higher
+- Composer
+- Node.js & NPM
+- A database (MySQL/PostgreSQL)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+**Steps:**
+1.  **Clone this repository:**
+    ```bash
+    git clone [https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git](https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git)
+    cd YOUR_REPOSITORY](https://github.com/rrafliadytm/basic-task-management-system-app.git)
+    ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+2.  **Install dependencies:**
+    ```bash
+    composer install
+    npm install
+    npm run build
+    ```
 
-## Laravel Sponsors
+3.  **Setup Environment File:**
+    Copy the `.env.example` file to `.env` and configure your database connection.
+    ```bash
+    cp .env.example .env
+    ```
+4. **Open the `.env` file and set your `DB_DATABASE`, `DB_USERNAME`, and `DB_PASSWORD`.**
+   Example
+   ```bash
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3307
+    DB_DATABASE=task_management_sytem
+    DB_USERNAME=root
+    DB_PASSWORD=
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+4.  **Generate Application Key:**
+    ```bash
+    php artisan key:generate
+    ```
 
-### Premium Partners
+5.  **Run Migrations & Seeders:**
+    This command will create all database tables and fill them with initial data (admin user, categories, etc.).
+    ```bash
+    php artisan migrate --seed
+    ```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+6.  **Run the development server:**
+    ```bash
+    php artisan serve
+    or
+    composer run dev
+    ```
+    The application is now running at `http://localhost:8000`.
 
-## Contributing
+---
+## ⚙️ Usage
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Admin Panel (Filament)
+- **URL**: `http://localhost:8000/admin`
+- **Email**: `admin@email.com`
+- **Password**: `12345678`
 
-## Code of Conduct
+### REST API
+To interact with the API, you must first authenticate to get a token.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+1.  **Login**: Send a `POST` request to `http://localhost:8000/api/login` with your previous `email` and `password`.
+2.  **Use the Token**: Copy the token you receive and include it in the header of your subsequent requests:
+    `Authorization: Bearer <YOUR_TOKEN>`
 
-## Security Vulnerabilities
+---
+## 📚 API Documentation (Swagger)
+Complete and interactive API documentation is available after you run the server.
+- **URL**: `http://localhost:8000/api/documentation`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
+## ✅ Running Tests
+This project includes automated tests to ensure that all API functionalities work correctly.
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+To run the entire test suite, use the command:
+```bash
+php artisan test
+```
