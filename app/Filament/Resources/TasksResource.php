@@ -17,16 +17,23 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use LimitIterator;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\Facades\Auth;
 
 
 
 class TasksResource extends Resource
 {
-    protected static ?string $modelLabel = 'Task Management';
-    protected static ?string $navigationLabel = 'Task Management';
-
+    protected static ?string $pluralLabel = 'Tasks Management';
     protected static ?string $model = Tasks::class;
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';
+    protected static ?string $slug = 'tasks-management';
+    protected static ?string $navigationBadgeTooltip = 'The number of tasks';
+
+    // Navigation Item Badge for Tasks Management Menu
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
 
     // Form View
     public static function form(Form $form): Form
@@ -37,6 +44,7 @@ class TasksResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Textarea::make('description')
+                    ->label('Task Description (Optional)')
                     ->maxLength(255)
                     ->columnSpan('full'),
                 Forms\Components\DatePicker::make('deadline')
@@ -61,31 +69,10 @@ class TasksResource extends Resource
                     ->required()
                     ->options(priorities::query()->orderBy('id', 'asc')->pluck('name', 'id'))
                     ->preload(),
-                Forms\Components\Select::make('user_id')
-                    ->label('Username')
-                    ->relationship('users', 'name')
-                    ->searchable()
-                    ->preload()
-                    ->createOptionForm([
-                        Forms\Components\TextInput::make('name')
-                            ->required()
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('email')
-                            ->label('Email address')
-                            ->email()
-                            ->required()
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('password')
-                            ->label('Password')
-                            ->password()
-                            ->required()
-                            ->minLength(3)
-                            ->maxLength(8)
-                            ->revealable() // Toggle visibility of the password field
-                            ->dehydrateStateUsing(fn ($state) => bcrypt($state))
-                            ->visible(fn (Forms\Get $get) => $get('id') === null), // Only show password field when creating a new user
-                    ])
-                    ->required(),
+                Forms\Components\Hidden::make('user_id')
+                    ->default(fn () => Auth::id()) // It will set the user_id to the currently authenticated user's ID
+                    ->dehydrated(true)
+                    ->required()
         ]);
     }
 
@@ -99,7 +86,11 @@ class TasksResource extends Resource
                 Tables\Columns\TextColumn::make('deadline')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('status'),
+                Tables\Columns\TextColumn::make('status')->badge()->color(fn (string $state): string => match ($state) {
+                        'pending' => 'primary',
+                        'in-progress' => 'info',
+                        'completed' => 'success',
+                    }),
                 Tables\Columns\TextColumn::make('categories.name')
                     ->label('Category')
                     ->searchable(),
@@ -107,7 +98,7 @@ class TasksResource extends Resource
                     ->label('Priority')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('users.name')
-                    ->label('Username')
+                    ->label('Users')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -135,8 +126,18 @@ class TasksResource extends Resource
                     ->label('Select Priority')
                     ->options(priorities::query()->pluck('name', 'id')),
                 Tables\Filters\SelectFilter::make('user_id')
-                    ->label('Select Username')
-                    ->options(User::query()->pluck('name', 'id'))
+                    ->label('Select Users')
+                    ->options(User::query()->pluck('name', 'id')),
+                Tables\Filters\TernaryFilter::make('deadline')
+                    ->label('Select Deadline Status')
+                    ->placeholder('All Tasks')
+                    ->trueLabel('Overdue Tasks')
+                    ->falseLabel('Upcoming Tasks')
+                    ->queries(
+                        true: fn (Builder $query) => $query->whereDate('deadline', '<', now()),
+                        false: fn (Builder $query) => $query->whereDate('deadline', '>=', now()),
+                        blank: fn (Builder $query) => $query
+                    )
             ])
 
             // Actions

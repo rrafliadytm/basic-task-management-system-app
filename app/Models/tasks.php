@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
+
 
 class tasks extends Model
 {
@@ -36,4 +38,14 @@ class tasks extends Model
         'priority_id',
         'user_id',
     ];
+
+        protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($tasks) {
+            $tasks->user_id = Auth::id(); // It will set the user_id to the currently authenticated user's ID
+        });
+    }
+
 }
