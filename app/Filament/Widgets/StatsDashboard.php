@@ -2,8 +2,8 @@
 
 namespace App\Filament\Widgets;
 
-use App\Models\categories;
-use App\Models\tasks;
+use App\Models\Categories;
+use App\Models\Tasks;
 use App\Models\User;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
@@ -12,8 +12,8 @@ class StatsDashboard extends BaseWidget
 {
     protected function getStats(): array
     {
-        $countTasks = tasks::count();
-        $countCategories = categories::count();
+        $countTasks = Tasks::count();
+        $countCategories = Categories::count();
         $countUsers = User::count();
         return [
             Stat::make('Total Tasks', $countTasks . ' Tasks')

@@ -5,8 +5,8 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\TasksResource\Pages;
 use App\Filament\Resources\TasksResource\RelationManagers;
 use App\Models\Tasks;
-use App\Models\categories;
-use App\Models\priorities;
+use App\Models\Categories;
+use App\Models\Priorities;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -121,10 +121,10 @@ class TasksResource extends Resource
                     ]),
                 Tables\Filters\SelectFilter::make('category_id')
                     ->label('Select Category')
-                    ->options(categories::query()->pluck('name', 'id')),
+                    ->options(Categories::query()->pluck('name', 'id')),
                 Tables\Filters\SelectFilter::make('priority_id')
                     ->label('Select Priority')
-                    ->options(priorities::query()->pluck('name', 'id')),
+                    ->options(Priorities::query()->pluck('name', 'id')),
                 Tables\Filters\SelectFilter::make('user_id')
                     ->label('Select Users')
                     ->options(User::query()->pluck('name', 'id')),
