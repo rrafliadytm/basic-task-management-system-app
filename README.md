@@ -111,7 +111,7 @@ This project includes automated tests to ensure that all API functionalities wor
 
 1. **Make sure to copy the `.env` to the new `.env.testing` file**
 ```bash
-cp .env.example .env
+cp .env. .env.testing
 ```
 2. **Open the `.env.testing` file and set your `DB_DATABASE`, `DB_USERNAME`, and `DB_PASSWORD`.** Example:
    ```bash
