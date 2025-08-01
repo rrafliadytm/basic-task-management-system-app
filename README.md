@@ -111,9 +111,9 @@ This project includes automated tests to ensure that all API functionalities wor
 
 1. **Make sure to copy the `.env` to the new `.env.testing` file**
 ```bash
-cp .env. .env.testing
+cp .env .env.testing
 ```
-2. **Open the `.env.testing` file and set your `DB_DATABASE`, `DB_USERNAME`, and `DB_PASSWORD`.** Example:
+2. **Open the `.env.testing` file and change your `DB_DATABASE` with add *_testing* behind the Database name .** Example:
    ```bash
     DB_CONNECTION=mysql
     DB_HOST=127.0.0.1
