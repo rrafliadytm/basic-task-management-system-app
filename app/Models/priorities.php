@@ -5,13 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
+use App\Models\Categories;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class priorities extends Model
+class Priorities extends Model
 {
+    use HasFactory;
     // Eloquent Relationship for Priorities Has Many Tasks
     public function categories(): HasMany
     {
-        return $this->hasMany(categories::class);
+        return $this->hasMany(Categories::class);
     }
 
 
