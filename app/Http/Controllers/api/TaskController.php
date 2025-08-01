@@ -13,11 +13,57 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
+/**
+ * @OA\Info(
+ * version="1.0.0",
+ * title="Task Management API Documentation",
+ * description="API Documentation for the Task Management System"
+ * )
+ * @OA\SecurityScheme(
+ * securityScheme="bearerAuth",
+ * type="http",
+ * scheme="bearer"
+ * )
+ * @OA\Schema(
+ * schema="Task",
+ * required={"id", "title", "status"},
+ * @OA\Property(property="id", type="integer", readOnly=true, example=1),
+ * @OA\Property(property="title", type="string", example="Finalize Report"),
+ * @OA\Property(property="description", type="string", nullable=true, example="Monthly sales report."),
+ * @OA\Property(property="status", type="string", enum={"pending", "in-progress", "completed"}, example="pending"),
+ * @OA\Property(property="deadline", type="string", format="date-time", nullable=true, example="2025-12-31T23:59:59Z"),
+ * @OA\Property(property="category", type="string", readOnly=true, example="Work"),
+ * @OA\Property(property="priority", type="string", readOnly=true, example="High"),
+ * @OA\Property(property="created_at", type="string", format="date-time", readOnly=true, example="2025-08-01T10:00:00Z")
+ * )
+ * @OA\Schema(
+ * schema="TaskRequest",
+ * required={"title", "category_id", "priority_id", "status"},
+ * @OA\Property(property="title", type="string", example="New Task Title"),
+ * @OA\Property(property="description", type="string", nullable=true),
+ * @OA\Property(property="category_id", type="integer", example=1),
+ * @OA\Property(property="priority_id", type="integer", example=2),
+ * @OA\Property(property="deadline", type="string", format="date-time", nullable=true),
+ * @OA\Property(property="status", type="string", enum={"pending", "in-progress", "completed"})
+ * )
+ */
 class TaskController extends Controller
 {
     use AuthorizesRequests;
+
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     * path="/tasks",
+     * summary="Get list of tasks",
+     * tags={"Tasks"},
+     * security={{"bearerAuth":{}}},
+     * @OA\Response(
+     * response=200,
+     * description="Successful operation",
+     * @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/Task"))
+     * ),
+     * @OA\Response(response=401, description="Unauthenticated")
+     * )
      */
     public function index()
     {
@@ -31,7 +77,23 @@ class TaskController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     * path="/tasks",
+     * summary="Create a new task",
+     * tags={"Tasks"},
+     * security={{"bearerAuth":{}}},
+     * @OA\RequestBody(
+     * required=true,
+     * @OA\JsonContent(ref="#/components/schemas/Task")
+     * ),
+     * @OA\Response(
+     * response=201,
+     * description="Task created successfully",
+     * @OA\JsonContent(ref="#/components/schemas/Task")
+     * ),
+     * @OA\Response(response=401, description="Unauthenticated"),
+     * @OA\Response(response=422, description="Validation error")
+     * )
      */
     public function store(StoreTaskRequest $request)
     {
@@ -41,7 +103,21 @@ class TaskController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     * path="/tasks/{id}",
+     * summary="Get a specific task",
+     * tags={"Tasks"},
+     * security={{"bearerAuth":{}}},
+     * @OA\Parameter(
+     * name="id",
+     * in="path",
+     * required=true,
+     * @OA\Schema(type="integer")
+     * ),
+     * @OA\Response(response=200, description="Successful operation", @OA\JsonContent(ref="#/components/schemas/Task")),
+     * @OA\Response(response=403, description="Forbidden"),
+     * @OA\Response(response=404, description="Not Found")
+     * )
      */
     public function show(Tasks $task)
     {
@@ -52,7 +128,32 @@ class TaskController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     * path="/tasks/{id}",
+     * summary="Update an existing task",
+     * tags={"Tasks"},
+     * security={{"bearerAuth":{}}},
+     * @OA\Parameter(
+     * name="id",
+     * in="path",
+     * required=true,
+     * description="ID of the task to update",
+     * @OA\Schema(type="integer")
+     * ),
+     * @OA\RequestBody(
+     * required=true,
+     * description="Data to update the task",
+     * @OA\JsonContent(ref="#/components/schemas/TaskRequest")
+     * ),
+     * @OA\Response(
+     * response=200,
+     * description="Task updated successfully",
+     * @OA\JsonContent(ref="#/components/schemas/Task")
+     * ),
+     * @OA\Response(response=403, description="Forbidden"),
+     * @OA\Response(response=404, description="Task not found"),
+     * @OA\Response(response=422, description="Validation error")
+     * )
      */
     public function update(UpdateTaskRequest $request, Tasks $task)
     {
@@ -63,8 +164,27 @@ class TaskController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     * path="/tasks/{id}",
+     * summary="Delete a task",
+     * tags={"Tasks"},
+     * security={{"bearerAuth":{}}},
+     * @OA\Parameter(
+     * name="id",
+     * in="path",
+     * required=true,
+     * description="ID of the task to delete",
+     * @OA\Schema(type="integer")
+     * ),
+     * @OA\Response(
+     * response=204,
+     * description="Task deleted successfully"
+     * ),
+     * @OA\Response(response=403, description="Forbidden"),
+     * @OA\Response(response=404, description="Task not found")
+     * )
      */
+
     public function destroy(Tasks $task)
     {
         $this->authorize('delete', $task);

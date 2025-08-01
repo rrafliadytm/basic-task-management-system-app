@@ -8,6 +8,15 @@ use Illuminate\Support\Str;
 use App\Models\Priorities;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * @OA\Schema(
+ * schema="Category",
+ * required={"id", "name", "slug"},
+ * @OA\Property(property="id", type="integer", readOnly=true, example=1),
+ * @OA\Property(property="name", type="string", example="Work Project"),
+ * @OA\Property(property="slug", type="string", readOnly=true, example="work-project")
+ * )
+ */
 class Categories extends Model
 {
     use HasFactory;

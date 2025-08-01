@@ -10,7 +10,17 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Tasks;
 use Laravel\Sanctum\HasApiTokens;
 
-
+/**
+ * @OA\Schema(
+ * schema="User",
+ * required={"id", "name", "email"},
+ * @OA\Property(property="id", type="integer", readOnly=true, example=1),
+ * @OA\Property(property="name", type="string", example="John Doe"),
+ * @OA\Property(property="email", type="string", format="email", example="johndoe@example.com"),
+ * @OA\Property(property="email_verified_at", type="string", format="date-time", readOnly=true, nullable=true),
+ * @OA\Property(property="created_at", type="string", format="date-time", readOnly=true)
+ * )
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;

@@ -1,0 +1,407 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Task Management API Documentation",
+        "description": "API Documentation for the Task Management System",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/tasks": {
+            "get": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Get list of tasks",
+                "operationId": "108cf97d6fad951020407262015fc4b8",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Task"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Create a new task",
+                "operationId": "0236434e8e1beb122d65928c0ee55cd0",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Task"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Task created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/tasks/{id}": {
+            "get": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Get a specific task",
+                "operationId": "e7fee9dcb9eaa9cc399908ad13c4b937",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Update an existing task",
+                "operationId": "7d4878159c5b80e0465202a4a44a26f1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the task to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Data to update the task",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TaskRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Task updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Task not found"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Delete a task",
+                "operationId": "8fbc180ceef0f821ddeab896eac694c4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the task to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Task deleted successfully"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Task not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Task": {
+                "required": [
+                    "id",
+                    "title",
+                    "status"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": true,
+                        "example": 1
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Finalize Report"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Monthly sales report.",
+                        "nullable": true
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "pending",
+                            "in-progress",
+                            "completed"
+                        ],
+                        "example": "pending"
+                    },
+                    "deadline": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-12-31T23:59:59Z",
+                        "nullable": true
+                    },
+                    "category": {
+                        "type": "string",
+                        "readOnly": true,
+                        "example": "Work"
+                    },
+                    "priority": {
+                        "type": "string",
+                        "readOnly": true,
+                        "example": "High"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true,
+                        "example": "2025-08-01T10:00:00Z"
+                    }
+                },
+                "type": "object"
+            },
+            "TaskRequest": {
+                "required": [
+                    "title",
+                    "category_id",
+                    "priority_id",
+                    "status"
+                ],
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "example": "New Task Title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "category_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "priority_id": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "deadline": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "pending",
+                            "in-progress",
+                            "completed"
+                        ]
+                    }
+                },
+                "type": "object"
+            },
+            "Category": {
+                "required": [
+                    "id",
+                    "name",
+                    "slug"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": true,
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Work Project"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "readOnly": true,
+                        "example": "work-project"
+                    }
+                },
+                "type": "object"
+            },
+            "Priority": {
+                "required": [
+                    "id",
+                    "name",
+                    "level"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": true,
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "High"
+                    },
+                    "level": {
+                        "description": "The priority level, higher is more important",
+                        "type": "integer",
+                        "example": 3
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "required": [
+                    "id",
+                    "name",
+                    "email"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": true,
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "johndoe@example.com"
+                    },
+                    "email_verified_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true,
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Tasks",
+            "description": "Tasks"
+        }
+    ]
+}
