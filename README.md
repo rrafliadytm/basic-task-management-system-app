@@ -123,7 +123,11 @@ cp .env .env.testing
     DB_PASSWORD=
    ```
 
-3. **Run migrations & seeders to create a new testing database from the `.env.testing` file**
+3. **Run migrations to create a new testing database from the `.env.testing` file**
+   ```bash
+   php artisan migrate --env=testing
+   ```
+4. **Run migrations with seeder to the new testing Database**
    ```bash
    php artisan migrate:fresh --env=testing --seed
    ```
