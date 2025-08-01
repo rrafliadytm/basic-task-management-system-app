@@ -56,8 +56,7 @@ Here are the steps to get this project running locally.
     ```bash
     cp .env.example .env
     ```
-4. **Open the `.env` file and set your `DB_DATABASE`, `DB_USERNAME`, and `DB_PASSWORD`.**
-   Example
+4. **Open the `.env` file and set your `DB_DATABASE`, `DB_USERNAME`, and `DB_PASSWORD`.** Example:
    ```bash
     DB_CONNECTION=mysql
     DB_HOST=127.0.0.1
