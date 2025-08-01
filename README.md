@@ -84,6 +84,11 @@ Here are the steps to get this project running locally.
     composer run dev
     ```
     The application is now running at `http://localhost:8000`.
+    
+7. **Run the Pest to test the API on the terminal**
+   ```bash
+   php artisan test tests/Feature/Tasks/Api/TaskApiTest.php
+   ```
 
 ---
 ## ⚙️ Usage
